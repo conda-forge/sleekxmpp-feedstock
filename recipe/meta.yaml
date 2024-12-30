@@ -8,26 +8,28 @@ package:
 
 source:
   fn: {{ name }}-{{ version }}.tar.gz
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: {{ sha256 }}
 
 build:
-  number: 0
+  number: 1
   noarch: python
   script: "{{ PYTHON }} -m pip install . --no-deps --ignore-installed --no-cache-dir -vvv"
 
 requirements:
   host:
-    - python
+    - python {{ python_min }}
     - setuptools
     - pip
   run:
-    - python
+    - python >={{ python_min }}
     - dnspython
     - pyasn1
     - pyasn1-modules
 
 test:
+  requires:
+    - python {{ python_min }}
   imports:
     - sleekxmpp
     - sleekxmpp.stanza
